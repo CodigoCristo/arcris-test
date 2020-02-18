@@ -714,6 +714,7 @@ chmod +x /mnt/etc/pacman.d/hooks/mirrorupgrade.hook
 
 sed -i "s/selectedkeymap/${keymap}/g" /mnt/home/$nombre_usuario/chroot-test
 
+sed -i "80i $nombre_usuario ALL=(ALL) NOPASSWD: ALL" /mnt/etc/sudoers
 
 #Prepare el sistema para iniciar directamente en la raíz y ejecute el script posterior a la instalación
 mkdir /mnt/etc/systemd/system/getty@tty1.service.d

@@ -152,8 +152,8 @@ dialog --no-collapse --cr-wrap --backtitle "$titulo" --title "| Instalando AUR h
             && git clone https://aur.archlinux.org/yay-bin.git \
             && cd /home/$nombre_usuario/yay-bin \
             && makepkg -smp PKGBUILD --noconfirm \
-            && pacman -U *.pkg.tar.xz --noconfirm \
-            && rm -Rf /home/$nombre_usuario/yay-bin \
+            && sudo pacman -U *.pkg.tar.xz --noconfirm \
+            && sudo rm -Rf /home/$nombre_usuario/yay-bin \
             && cd" 25 100
             
 # yay -S gotop-git --noeditmenu --noconfirm --removemake
@@ -1073,53 +1073,68 @@ done
 #FIN the X11 keymap
 
 clear
-pacman -Sy archlinux-keyring --noconfirm | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Claves Actualizadas del LiveCD, Espere... |" 27 100; sleep 3
+sudo pacman -Sy archlinux-keyring --noconfirm | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Claves Actualizadas del LiveCD, Espere... |" 27 100; sleep 3
 
 
 nombre_usuario=$(cat /etc/passwd | grep '/home' | cut -d: -f1) 
 
-dialog  --backtitle "$titulo" --title "-| Instalando |-" --stdout --ok-label "Siguiente" --prgbox "yay -Sy $XORG $GPU $DE $DM $WM $WEB $FONT $UTIL $AUDIO $OFFICE $REPRO $SH $AP $RS --noeditmenu --noconfirm  && systemctl enable $(cat DMservice) $(cat GPUvirt)" 27 100
+yay -Sy $XORG --noeditmenu --noconfirm | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Instalando... |" 27 100
+yay -Sy $GPU --noeditmenu --noconfirm | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Instalando... |" 27 100
+yay -Sy $DE --noeditmenu --noconfirm | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Instalando... |" 27 100
+yay -Sy $DM --noeditmenu --noconfirm | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Instalando... |" 27 100
+yay -Sy $WM --noeditmenu --noconfirm | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Instalando... |" 27 100
+yay -Sy $WEB --noeditmenu --noconfirm | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Instalando... |" 27 100
+yay -Sy $FONT --noeditmenu --noconfirm | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Instalando... |" 27 100
+yay -Sy $UTIL --noeditmenu --noconfirm | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Instalando... |" 27 100
+yay -Sy $AUDIO --noeditmenu --noconfirm | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Instalando... |" 27 100
+yay -Sy $OFFICE --noeditmenu --noconfirm | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Instalando... |" 27 100
+yay -Sy $REPRO --noeditmenu --noconfirm | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Instalando... |" 27 100
+yay -Sy $SH --noeditmenu --noconfirm | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Instalando... |" 27 100
+yay -Sy $AP --noeditmenu --noconfirm | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Instalando... |" 27 100
+yay -Sy $RS --noeditmenu --noconfirm  | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Instalando... |" 27 100
+sudo systemctl enable $(cat DMservice) $(cat GPUvirt) | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Instalando... |" 27 100
 
-localectl set-x11-keymap $keymap
+
+sudo localectl set-x11-keymap $keymap
 
 echo $SH | awk -F " " '{print $1}' >> shell
 SH=$(cat shell)
-chsh -s /bin/$SH
-chsh -s /usr/bin/$SH $nombre_usuario
-chsh -s /bin/$SH $nombre_usuario
-rm shell
+sudo chsh -s /bin/$SH
+sudo chsh -s /usr/bin/$SH $nombre_usuario
+sudo chsh -s /bin/$SH $nombre_usuario
+sudo rm shell
 clear
 
 ####################################################################
 if [[ -n $wifinet1 || -n $wifinet2 ]]; then
 wifinet1=$(netctl list | awk -F " " '{print $1}')
-netctl disable $wifinet1
+sudo netctl disable $wifinet1
 clear
 wifinet2=$(netctl list | awk -F " " '{print $2}')
-netctl disable $wifinet2
-systemctl disable netctl
+sudo netctl disable $wifinet2
+sudo systemctl disable netctl
 fi
 clear
-systemctl enable dhcpcd NetworkManager
+sudo systemctl enable dhcpcd NetworkManager
 clear
-systemctl start dhcpcd NetworkManager
+sudo systemctl start dhcpcd NetworkManager
 clear
 ####################################################################
 
 
-pacman -Syu --noconfirm
+sudo pacman -Syu --noconfirm
 alsi
 sleep 5
 
-sed -i '80d' /etc/sudoers
-sed -i "80i $nombre_usuario ALL=(ALL) ALL" /etc/sudoers
+sudo sed -i '80d' /etc/sudoers
+sudo sed -i "80i $nombre_usuario ALL=(ALL) ALL" /etc/sudoers
 clear
 
 
 #Deshabilitar el inicio de sesión automático root tn tty1
-rm -R /etc/systemd/system/getty@tty1.service.d
-sed -i 's/sh chroot//g' /home/$nombre_usuario/.bashrc
-rm /home/$nombre_usuario/.bash_profile
-rm chroot
+sudo rm -R /etc/systemd/system/getty@tty1.service.d
+sudo sed -i 's/sh chroot//g' /home/$nombre_usuario/.bashrc
+sudo rm /home/$nombre_usuario/.bash_profile
+sudo rm chroot
 reboot
 #Eliminar los scripts y reinic
