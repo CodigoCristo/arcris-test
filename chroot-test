@@ -1095,6 +1095,9 @@ yay -Sy $RS --noeditmenu --noconfirm  | dialog --no-collapse --cr-wrap --backtit
 sudo systemctl enable $(cat DMservice) $(cat GPUvirt) | dialog --no-collapse --cr-wrap --backtitle "Instalación de ArchLinux - https://t.me/ArchLinuxCristo" --progressbox "| Instalando... |" 27 100
 
 
+dialog  --backtitle "$titulo" --title "-| Instalando |-" --stdout --ok-label "Siguiente" --prgbox "sudo -u $nombre_usuario yay -Sy $XORG $GPU $DE $DM $WM $WEB $FONT $UTIL $AUDIO $OFFICE $REPRO $SH $AP $RS --noeditmenu --noconfirm && systemctl enable $(cat DMservice) $(cat GPUvirt) && pacman -R $AUR_DELETE" 27 100
+
+
 sudo localectl set-x11-keymap $keymap
 
 echo $SH | awk -F " " '{print $1}' >> shell
